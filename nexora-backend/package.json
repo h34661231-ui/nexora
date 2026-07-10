@@ -1,7 +1,7 @@
 {
-  "name": "creativo-backend",
+  "name": "nexora-backend",
   "version": "1.0.0",
-  "description": "Backend API for Creativo freelance marketplace",
+  "description": "Backend API for Nexora freelance marketplace",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",

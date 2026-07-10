@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.json({ success: true, message: "Creativo API Running" });
+  res.json({ success: true, message: "Nexora API Running" });
 });
 
 const PORT = process.env.PORT || 5000;
