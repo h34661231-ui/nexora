@@ -1,0 +1,2037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXORA — Where Creatives Meet Opportunity</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<style>
+@import url('https://cdn.jsdelivr.net/npm/@fontsource/anton@5.0.13/index.css');
+@import url('https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.16/index.css');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --orange: #E85D26;
+  --yellow: #F5A623;
+  --dark: #0A0A0A;
+  --darker: #050505;
+  --cream: #FFF8F0;
+  --gray: #1A1A1A;
+  --light-gray: #888;
+  --accent: #FF6B35;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--dark);
+  color: var(--cream);
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* Custom Cursor */
+.cursor {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--orange);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.15s ease, background 0.15s ease;
+  mix-blend-mode: difference;
+}
+.cursor.active { transform: scale(2.5); background: var(--orange); }
+
+/* Floating Background Elements */
+.floating-shapes {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.shape {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.04;
+  background: var(--orange);
+}
+.shape-1 { width: 400px; height: 400px; top: 10%; left: -100px; animation: floatShape 20s ease-in-out infinite; }
+.shape-2 { width: 300px; height: 300px; top: 60%; right: -80px; animation: floatShape 25s ease-in-out infinite reverse; }
+.shape-3 { width: 200px; height: 200px; top: 30%; right: 20%; animation: floatShape 18s ease-in-out infinite; }
+.shape-4 { width: 150px; height: 150px; bottom: 20%; left: 15%; animation: floatShape 22s ease-in-out infinite reverse; }
+
+@keyframes floatShape {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(30px, -40px) scale(1.1); }
+  50% { transform: translate(-20px, 20px) scale(0.95); }
+  75% { transform: translate(40px, 30px) scale(1.05); }
+}
+
+/* Navigation */
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 20px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(232,93,38,0.15);
+  transition: all 0.4s ease;
+}
+nav.scrolled { padding: 12px 50px; background: rgba(5,5,5,0.95); }
+.logo {
+  font-family: 'Anton', sans-serif;
+  font-size: 2rem;
+  letter-spacing: 6px;
+  color: var(--cream);
+  text-decoration: none;
+}
+.logo span { color: var(--orange); }
+.nav-links { display: flex; gap: 35px; list-style: none; align-items: center; }
+.nav-links a {
+  color: var(--cream);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  position: relative;
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--orange); }
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--orange);
+  transition: width 0.3s;
+}
+.nav-links a:hover::after { width: 100%; }
+.nav-cta {
+  background: var(--orange) !important;
+  color: var(--dark) !important;
+  padding: 10px 24px;
+  border-radius: 30px;
+  font-weight: 700 !important;
+  letter-spacing: 1px !important;
+  transition: transform 0.3s, box-shadow 0.3s !important;
+}
+.nav-cta:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(232,93,38,0.4); }
+.nav-cta::after { display: none !important; }
+.mobile-toggle { display: none; background: none; border: none; color: var(--cream); font-size: 1.5rem; cursor: pointer; }
+
+/* Hero Section */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 120px 50px 80px;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(232,93,38,0.12) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 80%, rgba(245,166,35,0.08) 0%, transparent 50%);
+}
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(232,93,38,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232,93,38,0.05) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridMove 20s linear infinite;
+}
+@keyframes gridMove {
+  0% { transform: translate(0,0); }
+  100% { transform: translate(60px,60px); }
+}
+
+/* Camera Lens Container */
+.camera-lens-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  pointer-events: none;
+}
+.camera-lens {
+  width: 420px;
+  height: 420px;
+  position: relative;
+  filter: drop-shadow(0 0 80px rgba(232,93,38,0.3)) drop-shadow(0 20px 60px rgba(0,0,0,0.8));
+}
+.lens-outer {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #2a2a2a, #1a1a1a, #333, #1a1a1a, #2a2a2a, #1a1a1a, #333, #1a1a1a, #2a2a2a);
+  box-shadow: inset 0 0 30px rgba(0,0,0,0.8), 0 0 0 3px #111, 0 0 0 6px #333, 0 0 0 8px #111, 0 10px 40px rgba(0,0,0,0.9);
+}
+.lens-grip {
+  position: absolute;
+  inset: 15px;
+  border-radius: 50%;
+  background: repeating-conic-gradient(from 0deg, #222 0deg 3deg, #1a1a1a 3deg 6deg);
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
+}
+.lens-barrel {
+  position: absolute;
+  inset: 40px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #2d2d2d 0%, #1a1a1a 50%, #0d0d0d 100%);
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.9), 0 0 0 2px #444, 0 0 0 4px #222;
+}
+.lens-focus {
+  position: absolute;
+  inset: 55px;
+  border-radius: 50%;
+  background: repeating-conic-gradient(from 0deg, #333 0deg 2deg, #222 2deg 4deg);
+  box-shadow: inset 0 0 15px rgba(0,0,0,0.7);
+}
+.lens-inner {
+  position: absolute;
+  inset: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #1a1a1a, #0a0a0a);
+  box-shadow: inset 0 0 30px rgba(0,0,0,0.9), 0 0 0 1px #333;
+}
+.lens-glass {
+  position: absolute;
+  inset: 100px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(100,150,200,0.3) 0%, rgba(50,80,120,0.5) 20%, rgba(20,40,80,0.8) 40%, rgba(10,20,40,0.95) 60%, #050510 100%);
+  box-shadow: inset 0 0 60px rgba(0,0,0,0.9), inset 0 0 20px rgba(100,150,200,0.2), 0 0 0 2px #1a1a1a;
+  overflow: hidden;
+}
+.lens-reflection {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 25% 25%, rgba(255,255,255,0.15) 0%, transparent 40%), radial-gradient(ellipse at 70% 70%, rgba(232,93,38,0.1) 0%, transparent 30%);
+}
+.lens-flare {
+  position: absolute;
+  top: 20%;
+  left: 25%;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, transparent 70%);
+  filter: blur(2px);
+}
+.lens-aperture { position: absolute; inset: 130px; border-radius: 50%; overflow: hidden; }
+.aperture-blade {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  height: 2px;
+  background: linear-gradient(to right, rgba(0,0,0,0.9), transparent);
+  transform-origin: left center;
+}
+.lens-markings { position: absolute; inset: 45px; border-radius: 50%; }
+.lens-markings::before {
+  content: 'NEXORA PRO 50mm f/1.4';
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 7px;
+  letter-spacing: 3px;
+  color: rgba(232,93,38,0.8);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.lens-markings::after {
+  content: '∞ — 0.5m — 0.3m';
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 6px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.4);
+  white-space: nowrap;
+}
+
+/* Hero Content */
+.hero-content {
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(232,93,38,0.15);
+  border: 1px solid rgba(232,93,38,0.3);
+  padding: 8px 20px;
+  border-radius: 30px;
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 30px;
+}
+.hero-badge .dot { width: 6px; height: 6px; background: var(--orange); border-radius: 50%; animation: pulse 2s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+.hero-title {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(4rem, 12vw, 11rem);
+  line-height: 0.9;
+  letter-spacing: -2px;
+  margin-bottom: 20px;
+}
+.hero-title .line { display: block; overflow: hidden; }
+.hero-title .line span { display: inline-block; transform: translateY(120%); }
+.hero-title .outline { -webkit-text-stroke: 2px var(--cream); color: transparent; }
+.hero-title .filled { color: var(--orange); }
+.hero-sub {
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  color: var(--light-gray);
+  max-width: 600px;
+  margin: 0 auto 40px;
+  line-height: 1.7;
+  opacity: 0;
+}
+.hero-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; opacity: 0; }
+.btn-primary {
+  background: var(--orange);
+  color: var(--dark);
+  padding: 16px 40px;
+  border: none;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(232,93,38,0.4); }
+.btn-secondary {
+  background: transparent;
+  color: var(--cream);
+  padding: 16px 40px;
+  border: 1px solid rgba(255,248,240,0.3);
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+}
+.btn-secondary:hover { border-color: var(--orange); color: var(--orange); }
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  z-index: 5;
+}
+.scroll-indicator span { font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; color: var(--light-gray); }
+.scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--orange), transparent); animation: scrollDown 2s infinite; }
+@keyframes scrollDown {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  51% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+/* Realistic Ads in Hero */
+.hero-ads { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.hero-ad {
+  position: absolute;
+  background: rgba(26,26,26,0.92);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(232,93,38,0.2);
+  border-radius: 12px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  max-width: 280px;
+}
+.hero-ad:hover { border-color: var(--orange); transform: translateY(-3px); box-shadow: 0 15px 50px rgba(232,93,38,0.2); }
+.hero-ad .ad-badge {
+  position: absolute;
+  top: -6px;
+  right: 12px;
+  background: var(--orange);
+  color: var(--dark);
+  font-size: 0.55rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+}
+.hero-ad .ad-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.hero-ad .ad-text { flex: 1; }
+.hero-ad .ad-title { font-size: 0.8rem; font-weight: 700; color: var(--cream); margin-bottom: 2px; }
+.hero-ad .ad-desc { font-size: 0.65rem; color: var(--light-gray); line-height: 1.3; }
+.hero-ad .ad-cta { font-size: 0.6rem; color: var(--orange); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-top: 3px; }
+
+.ad-1 { top: 18%; left: 5%; animation: adFloat1 6s ease-in-out infinite; }
+.ad-2 { top: 25%; right: 5%; animation: adFloat2 7s ease-in-out infinite; }
+.ad-3 { bottom: 22%; left: 8%; animation: adFloat3 8s ease-in-out infinite; }
+.ad-4 { bottom: 18%; right: 6%; animation: adFloat1 9s ease-in-out infinite reverse; }
+
+@keyframes adFloat1 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+@keyframes adFloat2 { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-8px) rotate(1deg); } }
+@keyframes adFloat3 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+/* Camera Flash Effect */
+.camera-flash { position: fixed; inset: 0; background: white; z-index: 9998; opacity: 0; pointer-events: none; }
+.camera-flash.active { animation: flashEffect 0.6s ease-out; }
+@keyframes flashEffect {
+  0% { opacity: 0; } 10% { opacity: 0.9; } 30% { opacity: 0; } 40% { opacity: 0.4; } 100% { opacity: 0; }
+}
+.shutter-indicator {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(26,26,26,0.9);
+  backdrop-filter: blur(10px);
+  padding: 10px 18px;
+  border-radius: 30px;
+  border: 1px solid rgba(232,93,38,0.3);
+  font-size: 0.75rem;
+  color: var(--cream);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.shutter-indicator.show { opacity: 1; }
+.shutter-dot { width: 8px; height: 8px; background: var(--orange); border-radius: 50%; animation: shutterPulse 0.3s ease; }
+@keyframes shutterPulse { 0% { transform: scale(1); } 50% { transform: scale(2); } 100% { transform: scale(1); } }
+
+/* Marquee */
+.marquee-section { padding: 30px 0; background: var(--orange); overflow: hidden; position: relative; z-index: 2; }
+.marquee-track { display: flex; animation: marquee 25s linear infinite; width: max-content; }
+.marquee-track span {
+  font-family: 'Anton', sans-serif;
+  font-size: 1.5rem;
+  color: var(--dark);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding: 0 30px;
+}
+.marquee-track span.dot { font-size: 1rem; padding: 0 15px; }
+@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* Section Styles */
+.section { padding: 120px 50px; position: relative; z-index: 2; }
+.section-label {
+  font-size: 0.7rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-label::before { content: ''; width: 30px; height: 1px; background: var(--orange); }
+.section-title {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  line-height: 1;
+  margin-bottom: 20px;
+  letter-spacing: -1px;
+}
+.section-title .highlight { color: var(--orange); }
+
+/* Featured Work Showcase - NEW LAYERED SECTION */
+.featured-section {
+  background: var(--darker);
+  padding: 120px 50px;
+  position: relative;
+  overflow: hidden;
+}
+.featured-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -20%;
+  width: 60%;
+  height: 200%;
+  background: radial-gradient(ellipse, rgba(232,93,38,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(3, 200px);
+  gap: 15px;
+  margin-top: 60px;
+}
+.featured-item {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.featured-item:hover { transform: scale(1.02); z-index: 10; }
+.featured-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s;
+}
+.featured-item:hover img { transform: scale(1.1); }
+.featured-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10,10,10,0.9) 0%, transparent 60%);
+  transition: background 0.4s;
+}
+.featured-item:hover::after { background: linear-gradient(to top, rgba(232,93,38,0.85) 0%, transparent 70%); }
+.featured-item-content {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: 2;
+}
+.featured-item-tag {
+  display: inline-block;
+  background: var(--orange);
+  color: var(--dark);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.featured-item-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+}
+.featured-item-meta {
+  font-size: 0.75rem;
+  color: rgba(255,248,240,0.7);
+  margin-top: 4px;
+}
+
+.fi-1 { grid-column: 1 / 6; grid-row: 1 / 3; }
+.fi-2 { grid-column: 6 / 9; grid-row: 1 / 2; }
+.fi-3 { grid-column: 9 / 13; grid-row: 1 / 3; }
+.fi-4 { grid-column: 6 / 9; grid-row: 2 / 3; }
+.fi-5 { grid-column: 1 / 4; grid-row: 3 / 4; }
+.fi-6 { grid-column: 4 / 8; grid-row: 3 / 4; }
+.fi-7 { grid-column: 8 / 13; grid-row: 3 / 4; }
+
+/* Categories Section */
+.categories-section { background: var(--dark); }
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2px;
+  margin-top: 60px;
+}
+.category-card {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--gray);
+}
+.category-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s ease, filter 0.5s ease;
+  filter: grayscale(30%) brightness(0.7);
+}
+.category-card:hover img { transform: scale(1.1); filter: grayscale(0%) brightness(0.9); }
+.category-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.3) 50%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 35px;
+  transition: background 0.5s;
+}
+.category-card:hover .category-overlay {
+  background: linear-gradient(to top, rgba(232,93,38,0.9) 0%, rgba(10,10,10,0.4) 60%, transparent 100%);
+}
+.category-number {
+  font-family: 'Anton', sans-serif;
+  font-size: 4rem;
+  color: rgba(232,93,38,0.3);
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  transition: color 0.5s;
+}
+.category-card:hover .category-number { color: rgba(255,255,255,0.3); }
+.category-name { font-family: 'Anton', sans-serif; font-size: 2rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+.category-desc { font-size: 0.85rem; color: rgba(255,248,240,0.7); line-height: 1.5; max-width: 250px; }
+.category-arrow {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  width: 45px;
+  height: 45px;
+  border: 1px solid rgba(255,248,240,0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s;
+  font-size: 0.9rem;
+}
+.category-card:hover .category-arrow { background: var(--cream); color: var(--dark); border-color: var(--cream); transform: rotate(-45deg); }
+
+/* Search/Filter Section */
+.search-section { background: var(--darker); }
+.search-container { max-width: 1100px; margin: 60px auto 0; }
+.search-bar {
+  display: flex;
+  background: var(--gray);
+  border-radius: 60px;
+  padding: 8px;
+  border: 1px solid rgba(232,93,38,0.2);
+  margin-bottom: 40px;
+  transition: border-color 0.3s;
+}
+.search-bar:focus-within { border-color: var(--orange); }
+.search-bar input {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 18px 30px;
+  color: var(--cream);
+  font-size: 1rem;
+  outline: none;
+  font-family: 'Inter', sans-serif;
+}
+.search-bar input::placeholder { color: var(--light-gray); }
+.search-bar button {
+  background: var(--orange);
+  border: none;
+  padding: 18px 35px;
+  border-radius: 50px;
+  color: var(--dark);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: 'Inter', sans-serif;
+}
+.search-bar button:hover { background: var(--yellow); }
+
+.filter-row { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 40px; }
+.filter-group { flex: 1; min-width: 200px; }
+.filter-group label { display: block; font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; color: var(--light-gray); margin-bottom: 10px; }
+.filter-select {
+  width: 100%;
+  padding: 14px 20px;
+  background: var(--gray);
+  border: 1px solid rgba(255,248,240,0.1);
+  border-radius: 12px;
+  color: var(--cream);
+  font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23E85D26' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  transition: border-color 0.3s;
+}
+.filter-select:focus { border-color: var(--orange); }
+.filter-select option { background: var(--gray); }
+
+.results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px; }
+.results-count { font-size: 0.85rem; color: var(--light-gray); }
+.results-count strong { color: var(--orange); }
+.view-toggle { display: flex; gap: 8px; }
+.view-toggle button {
+  width: 38px;
+  height: 38px;
+  background: var(--gray);
+  border: 1px solid rgba(255,248,240,0.1);
+  border-radius: 8px;
+  color: var(--light-gray);
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.view-toggle button.active { background: var(--orange); color: var(--dark); border-color: var(--orange); }
+
+.creators-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
+.creator-card {
+  background: var(--gray);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255,248,240,0.06);
+  transition: all 0.4s;
+  cursor: pointer;
+  position: relative;
+}
+.creator-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(232,93,38,0.1) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+  z-index: 1;
+}
+.creator-card:hover::before { opacity: 1; }
+.creator-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(232,93,38,0.3);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(232,93,38,0.1);
+}
+.creator-image {
+  height: 220px;
+  overflow: hidden;
+  position: relative;
+}
+.creator-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s;
+}
+.creator-card:hover .creator-image img { transform: scale(1.08); }
+.creator-badge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: var(--orange);
+  color: var(--dark);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  z-index: 2;
+}
+.creator-rating {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(10,10,10,0.8);
+  backdrop-filter: blur(10px);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  z-index: 2;
+}
+.creator-rating i { color: var(--yellow); font-size: 0.7rem; }
+.creator-info { padding: 22px; position: relative; z-index: 2; }
+.creator-name { font-family: 'Anton', sans-serif; font-size: 1.3rem; letter-spacing: 1px; margin-bottom: 5px; }
+.creator-role { font-size: 0.8rem; color: var(--orange); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
+.creator-meta { display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
+.creator-meta span { font-size: 0.75rem; color: var(--light-gray); display: flex; align-items: center; gap: 5px; }
+.creator-meta i { color: var(--orange); font-size: 0.7rem; }
+.creator-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; }
+.creator-tags span { background: rgba(232,93,38,0.1); color: var(--orange); padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 500; }
+.creator-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255,248,240,0.08);
+}
+.creator-price { font-size: 0.8rem; color: var(--light-gray); }
+.creator-price strong { color: var(--cream); font-size: 1.1rem; }
+.creator-hire {
+  background: transparent;
+  border: 1px solid var(--orange);
+  color: var(--orange);
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: 'Inter', sans-serif;
+}
+.creator-hire:hover { background: var(--orange); color: var(--dark); }
+
+/* How it Works */
+.how-section { background: var(--dark); }
+.steps-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-top: 60px; }
+.step-card {
+  position: relative;
+  padding: 40px 30px;
+  background: var(--gray);
+  border-radius: 16px;
+  border: 1px solid rgba(255,248,240,0.06);
+  transition: all 0.4s;
+  overflow: hidden;
+}
+.step-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--orange), var(--yellow));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s;
+}
+.step-card:hover::before { transform: scaleX(1); }
+.step-card:hover { border-color: rgba(232,93,38,0.3); transform: translateY(-5px); }
+.step-number { font-family: 'Anton', sans-serif; font-size: 5rem; color: rgba(232,93,38,0.15); line-height: 1; margin-bottom: 15px; }
+.step-icon {
+  width: 50px;
+  height: 50px;
+  background: rgba(232,93,38,0.15);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  color: var(--orange);
+  font-size: 1.2rem;
+}
+.step-title { font-family: 'Anton', sans-serif; font-size: 1.4rem; letter-spacing: 1px; margin-bottom: 10px; }
+.step-desc { font-size: 0.9rem; color: var(--light-gray); line-height: 1.7; }
+
+/* Stats Section */
+.stats-section { background: var(--orange); padding: 80px 50px; position: relative; overflow: hidden; }
+.stats-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(0,0,0,0.03) 30px, rgba(0,0,0,0.03) 60px);
+}
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; text-align: center; position: relative; z-index: 2; }
+.stat-item .stat-number { font-family: 'Anton', sans-serif; font-size: clamp(3rem, 6vw, 5rem); color: var(--dark); line-height: 1; }
+.stat-item .stat-label { font-size: 0.8rem; color: rgba(10,10,10,0.6); letter-spacing: 2px; text-transform: uppercase; margin-top: 8px; }
+
+/* For Creatives Section - NO COMMISSION SHOWN */
+.creatives-section { background: var(--darker); position: relative; overflow: hidden; }
+.creatives-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background: radial-gradient(ellipse at right, rgba(232,93,38,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.creatives-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  margin-top: 60px;
+  align-items: center;
+}
+.creatives-visual {
+  position: relative;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.creatives-visual-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.cv-card {
+  position: absolute;
+  background: var(--gray);
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid rgba(232,93,38,0.2);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+.cv-card-1 {
+  top: 10%;
+  left: 5%;
+  width: 220px;
+  animation: cvFloat1 6s ease-in-out infinite;
+}
+.cv-card-2 {
+  top: 30%;
+  right: 5%;
+  width: 200px;
+  animation: cvFloat2 7s ease-in-out infinite;
+}
+.cv-card-3 {
+  bottom: 15%;
+  left: 15%;
+  width: 240px;
+  animation: cvFloat3 8s ease-in-out infinite;
+}
+@keyframes cvFloat1 { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-15px) rotate(0deg); } }
+@keyframes cvFloat2 { 0%, 100% { transform: translateY(0) rotate(2deg); } 50% { transform: translateY(-10px) rotate(0deg); } }
+@keyframes cvFloat3 { 0%, 100% { transform: translateY(0) rotate(1deg); } 50% { transform: translateY(-12px) rotate(-1deg); } }
+.cv-card-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(232,93,38,0.2);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--orange);
+  margin-bottom: 12px;
+}
+.cv-card-title { font-family: 'Anton', sans-serif; font-size: 1rem; letter-spacing: 1px; margin-bottom: 5px; }
+.cv-card-value { font-size: 1.5rem; font-weight: 700; color: var(--orange); font-family: 'Anton', sans-serif; }
+.cv-card-sub { font-size: 0.7rem; color: var(--light-gray); letter-spacing: 1px; text-transform: uppercase; }
+
+.creatives-info h3 { font-family: 'Anton', sans-serif; font-size: 2.5rem; margin-bottom: 20px; line-height: 1.1; }
+.creatives-info p { color: var(--light-gray); line-height: 1.8; margin-bottom: 20px; font-size: 0.95rem; }
+.creatives-features { list-style: none; margin-top: 25px; }
+.creatives-features li {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,248,240,0.06);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9rem;
+}
+.creatives-features li i { color: var(--orange); font-size: 0.8rem; }
+
+/* Testimonials */
+.testimonials-section { background: var(--dark); }
+.testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; margin-top: 60px; }
+.testimonial-card {
+  background: var(--gray);
+  border-radius: 16px;
+  padding: 35px;
+  border: 1px solid rgba(255,248,240,0.06);
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+.testimonial-card::before {
+  content: '"';
+  position: absolute;
+  top: -20px;
+  right: 20px;
+  font-family: 'Anton', sans-serif;
+  font-size: 10rem;
+  color: rgba(232,93,38,0.08);
+  line-height: 1;
+}
+.testimonial-card:hover { border-color: rgba(232,93,38,0.2); transform: translateY(-5px); }
+.testimonial-stars { color: var(--yellow); margin-bottom: 15px; font-size: 0.85rem; }
+.testimonial-text { font-size: 1rem; line-height: 1.7; color: var(--cream); margin-bottom: 25px; font-style: italic; position: relative; z-index: 2; }
+.testimonial-author { display: flex; align-items: center; gap: 15px; position: relative; z-index: 2; }
+.testimonial-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--orange), var(--yellow));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Anton', sans-serif;
+  font-size: 1.2rem;
+  color: var(--dark);
+}
+.testimonial-name { font-weight: 600; font-size: 0.95rem; }
+.testimonial-role { font-size: 0.8rem; color: var(--light-gray); }
+
+/* CTA Section */
+.cta-section {
+  background: var(--dark);
+  text-align: center;
+  padding: 150px 50px;
+  position: relative;
+  overflow: hidden;
+}
+.cta-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(232,93,38,0.15) 0%, transparent 70%);
+}
+.cta-title { font-family: 'Anton', sans-serif; font-size: clamp(3rem, 8vw, 7rem); line-height: 1; margin-bottom: 25px; position: relative; }
+.cta-sub { font-size: 1.1rem; color: var(--light-gray); max-width: 500px; margin: 0 auto 40px; line-height: 1.7; position: relative; }
+.cta-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; position: relative; }
+
+/* Footer */
+footer { background: var(--darker); padding: 80px 50px 30px; border-top: 1px solid rgba(255,248,240,0.06); position: relative; z-index: 2; }
+.footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 60px; }
+.footer-brand .logo { display: inline-block; margin-bottom: 15px; }
+.footer-brand p { color: var(--light-gray); font-size: 0.9rem; line-height: 1.7; max-width: 300px; }
+.footer-col h4 { font-family: 'Anton', sans-serif; font-size: 1rem; letter-spacing: 2px; margin-bottom: 20px; color: var(--cream); }
+.footer-col a { display: block; color: var(--light-gray); text-decoration: none; font-size: 0.85rem; padding: 5px 0; transition: color 0.3s; }
+.footer-col a:hover { color: var(--orange); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 30px; border-top: 1px solid rgba(255,248,240,0.06); flex-wrap: wrap; gap: 15px; }
+.footer-bottom p { font-size: 0.8rem; color: var(--light-gray); }
+.footer-socials { display: flex; gap: 12px; }
+.footer-socials a {
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255,248,240,0.15);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cream);
+  text-decoration: none;
+  transition: all 0.3s;
+  font-size: 0.85rem;
+}
+.footer-socials a:hover { background: var(--orange); border-color: var(--orange); color: var(--dark); }
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5,5,5,0.9);
+  backdrop-filter: blur(10px);
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+.modal-overlay.active { display: flex; }
+.modal {
+  background: var(--gray);
+  border-radius: 20px;
+  max-width: 600px;
+  width: 100%;
+  padding: 40px;
+  position: relative;
+  border: 1px solid rgba(232,93,38,0.2);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  background: rgba(255,248,240,0.1);
+  border: none;
+  border-radius: 50%;
+  color: var(--cream);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-close:hover { background: var(--orange); color: var(--dark); }
+.modal h2 { font-family: 'Anton', sans-serif; font-size: 2rem; margin-bottom: 10px; }
+.modal .modal-role { color: var(--orange); font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 25px; }
+.modal .modal-desc { color: var(--light-gray); line-height: 1.7; margin-bottom: 25px; font-size: 0.95rem; }
+.modal-portfolio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 25px; }
+.modal-portfolio-item { aspect-ratio: 1; background: var(--dark); border-radius: 10px; overflow: hidden; }
+.modal-portfolio-item img { width: 100%; height: 100%; object-fit: cover; }
+.modal-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; }
+.modal-stat { text-align: center; padding: 15px; background: var(--dark); border-radius: 10px; }
+.modal-stat .val { font-family: 'Anton', sans-serif; font-size: 1.5rem; color: var(--orange); }
+.modal-stat .lbl { font-size: 0.7rem; color: var(--light-gray); letter-spacing: 1px; text-transform: uppercase; margin-top: 3px; }
+.modal-hire-btn {
+  width: 100%;
+  padding: 16px;
+  background: var(--orange);
+  border: none;
+  border-radius: 12px;
+  color: var(--dark);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: 'Inter', sans-serif;
+}
+.modal-hire-btn:hover { background: var(--yellow); }
+
+/* Responsive */
+@media (max-width: 900px) {
+  nav { padding: 15px 25px; }
+  .nav-links { display: none; }
+  .mobile-toggle { display: block; }
+  .section, .featured-section { padding: 80px 25px; }
+  .hero { padding: 100px 25px 60px; }
+  .camera-lens { width: 280px; height: 280px; }
+  .hero-ad { max-width: 200px; padding: 10px 14px; }
+  .featured-grid { grid-template-columns: repeat(6, 1fr); grid-template-rows: auto; }
+  .fi-1, .fi-2, .fi-3, .fi-4, .fi-5, .fi-6, .fi-7 { grid-column: span 6; grid-row: auto; height: 250px; }
+  .creatives-grid { grid-template-columns: 1fr; }
+  .creatives-visual { height: 400px; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .categories-grid { grid-template-columns: 1fr; }
+  .category-card { height: 300px; }
+  .creators-grid { grid-template-columns: 1fr; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .stats-section { padding: 60px 25px; }
+  .cta-section { padding: 100px 25px; }
+  footer { padding: 60px 25px 20px; }
+}
+
+@media (max-width: 600px) {
+  .footer-top { grid-template-columns: 1fr; }
+  .search-bar { flex-direction: column; border-radius: 16px; }
+  .search-bar button { border-radius: 12px; }
+  .hero-ads { display: none; }
+  .camera-lens { width: 220px; height: 220px; }
+  .cv-card-1, .cv-card-2, .cv-card-3 { width: 180px !important; }
+}
+
+.reveal { opacity: 0; transform: translateY(40px); }
+.reveal.active { opacity: 1; transform: translateY(0); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="floating-shapes">
+  <div class="shape shape-1"></div>
+  <div class="shape shape-2"></div>
+  <div class="shape shape-3"></div>
+  <div class="shape shape-4"></div>
+</div>
+
+<div class="camera-flash" id="cameraFlash"></div>
+<div class="shutter-indicator" id="shutterIndicator">
+  <div class="shutter-dot"></div>
+  <span>📷 Capturing talent...</span>
+</div>
+
+<nav id="navbar">
+  <a href="#" class="logo">NEX<span>O</span>RA</a>
+  <ul class="nav-links">
+    <li><a href="#featured">Showcase</a></li>
+    <li><a href="#categories">Services</a></li>
+    <li><a href="#search">Find Talent</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#creatives">For Creatives</a></li>
+    <li><a href="#cta" class="nav-cta">Get Started</a></li>
+  </ul>
+  <button class="mobile-toggle" onclick="document.querySelector('.nav-links').style.display = document.querySelector('.nav-links').style.display === 'flex' ? 'none' : 'flex'">
+    <i class="fas fa-bars"></i>
+  </button>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  
+  <div class="camera-lens-container" id="cameraLensContainer">
+    <div class="camera-lens" id="cameraLens">
+      <div class="lens-outer"></div>
+      <div class="lens-grip"></div>
+      <div class="lens-barrel"></div>
+      <div class="lens-focus"></div>
+      <div class="lens-inner"></div>
+      <div class="lens-glass">
+        <div class="lens-reflection"></div>
+        <div class="lens-flare"></div>
+      </div>
+      <div class="lens-aperture" id="lensAperture"></div>
+      <div class="lens-markings"></div>
+    </div>
+  </div>
+
+  <div class="hero-ads">
+    <div class="hero-ad ad-1">
+      <span class="ad-badge">AD</span>
+      <div class="ad-icon" style="background: linear-gradient(135deg, #E85D26, #F5A623);">
+        <i class="fas fa-camera" style="color: white;"></i>
+      </div>
+      <div class="ad-text">
+        <div class="ad-title">Sony A7 IV — ₹1,89,990</div>
+        <div class="ad-desc">Professional full-frame mirrorless</div>
+        <div class="ad-cta">Shop Now →</div>
+      </div>
+    </div>
+    <div class="hero-ad ad-2">
+      <span class="ad-badge">SPONSORED</span>
+      <div class="ad-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+        <i class="fas fa-palette" style="color: white;"></i>
+      </div>
+      <div class="ad-text">
+        <div class="ad-title">Adobe Creative Cloud</div>
+        <div class="ad-desc">All apps. One plan. Save 40%.</div>
+        <div class="ad-cta">Get Started →</div>
+      </div>
+    </div>
+    <div class="hero-ad ad-3">
+      <span class="ad-badge">AD</span>
+      <div class="ad-icon" style="background: linear-gradient(135deg, #11998e, #38ef7d);">
+        <i class="fas fa-video" style="color: white;"></i>
+      </div>
+      <div class="ad-text">
+        <div class="ad-title">DJI Ronin 4D — ₹3,49,000</div>
+        <div class="ad-desc">Cinema camera with gimbal</div>
+        <div class="ad-cta">Learn More →</div>
+      </div>
+    </div>
+    <div class="hero-ad ad-4">
+      <span class="ad-badge">FEATURED</span>
+      <div class="ad-icon" style="background: linear-gradient(135deg, #fc466b, #3f5efb);">
+        <i class="fas fa-graduation-cap" style="color: white;"></i>
+      </div>
+      <div class="ad-text">
+        <div class="ad-title">Master VFX — Online Course</div>
+        <div class="ad-desc">From beginner to pro in 12 weeks</div>
+        <div class="ad-cta">Enroll Now →</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Now Live — Connecting Creatives Worldwide
+    </div>
+    <h1 class="hero-title">
+      <span class="line"><span>WHERE</span></span>
+      <span class="line"><span class="outline">CREATIVES</span></span>
+      <span class="line"><span class="filled">MEET</span></span>
+      <span class="line"><span>OPPORTUNITY</span></span>
+    </h1>
+    <p class="hero-sub">
+      Nexora connects you with the world's best photographers, cinematographers, VFX artists, graphic designers, content creators & storytellers — all in one place.
+    </p>
+    <div class="hero-buttons">
+      <a href="#search" class="btn-primary">Find Talent <i class="fas fa-arrow-right"></i></a>
+      <a href="#creatives" class="btn-secondary">Join as Creative</a>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="marquee-section">
+  <div class="marquee-track">
+    <span>PHOTOGRAPHERS</span><span class="dot">✦</span>
+    <span>CINEMATOGRAPHERS</span><span class="dot">✦</span>
+    <span>VFX ARTISTS</span><span class="dot">✦</span>
+    <span>GRAPHIC DESIGNERS</span><span class="dot">✦</span>
+    <span>CONTENT CREATORS</span><span class="dot">✦</span>
+    <span>STORYTELLERS</span><span class="dot">✦</span>
+    <span>PHOTOGRAPHERS</span><span class="dot">✦</span>
+    <span>CINEMATOGRAPHERS</span><span class="dot">✦</span>
+    <span>VFX ARTISTS</span><span class="dot">✦</span>
+    <span>GRAPHIC DESIGNERS</span><span class="dot">✦</span>
+    <span>CONTENT CREATORS</span><span class="dot">✦</span>
+    <span>STORYTELLERS</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- Featured Work Showcase -->
+<section class="featured-section" id="featured">
+  <div class="section-label">Trending Now</div>
+  <h2 class="section-title reveal">FEATURED <span class="highlight">WORK</span></h2>
+  <div class="featured-grid">
+    <div class="featured-item fi-1 reveal">
+      <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=600&fit=crop" alt="Wedding Photography">
+      <div class="featured-item-content">
+        <span class="featured-item-tag">Photography</span>
+        <div class="featured-item-title">Royal Wedding Chronicles</div>
+        <div class="featured-item-meta">By Studio Lumière · Mumbai</div>
+      </div>
+    </div>
+    <div class="featured-item fi-2 reveal">
+      <img src="https://images.unsplash.com/photo-1536240478700-b869070f9279?w=600&h=400&fit=crop" alt="Film Production">
+      <div class="featured-item-content">
+        <span class="featured-item-tag">Cinematography</span>
+        <div class="featured-item-title">Short Film: Echoes</div>
+        <div class="featured-item-meta">By Arjun Films</div>
+      </div>
+    </div>
+    <div class="featured-item fi-3 reveal">
+      <img src="https://images.unsplash.com/photo-1626544827763-d516dce335e2?w=800&h=600&fit=crop" alt="VFX Work">
+      <div class="featured-item-content">
+        <span class="featured-item-tag">VFX</span>
+        <div class="featured-item-title">Cosmic Dreamscape</div>
+        <div class="featured-item-meta">By Pixel Forge Studio</div>
+      </div>
+    </div>
+    <div class="featured-item fi-4 reveal">
+      <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=400&fit=crop" alt="Brand Design">
+      <div class="featured-item-content">
+        <span class="featured-item-tag">Design</span>
+        <div class="featured-item-title">Brand Identity: Aura</div>
+        <div class="featured-item-meta">By Design Collective</div>
+      </div>
+    </div>
+    <div class="featured-item fi-5 reveal">
+      <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop" alt="Content">
+      <div class="featured-item-content">
+        <span class="featured-item-tag">Content</span>
+        <div class="featured-item-title">Viral Campaign</div>
+        <div class="featured-item-meta">By Creator Hub</div>
+      </div>
+    </div>
+    <div class="featured-item fi-6 reveal">
+      <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=600&h=400&fit=crop" alt="Documentary">
+      <div class="featured-item-content">
+        <span class="featured-item-tag">Documentary</span>
+        <div class="featured-item-title">Voices Unheard</div>
+        <div class="featured-item-meta">By Story Craft</div>
+      </div>
+    </div>
+    <div class="featured-item fi-7 reveal">
+      <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=800&h=400&fit=crop" alt="Portrait">
+      <div class="featured-item-content">
+        <span class="featured-item-tag">Portrait</span>
+        <div class="featured-item-title">Faces of India</div>
+        <div class="featured-item-meta">By Lens & Light</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Categories -->
+<section class="section categories-section" id="categories">
+  <div class="section-label">Our Services</div>
+  <h2 class="section-title reveal">EVERY CREATIVE.<br><span class="highlight">ONE PLATFORM.</span></h2>
+  <div class="categories-grid">
+    <div class="category-card reveal" onclick="filterByCategory('Photographer')">
+      <img src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=600&h=800&fit=crop" alt="Photographer">
+      <div class="category-overlay">
+        <span class="category-number">01</span>
+        <div class="category-arrow"><i class="fas fa-arrow-right"></i></div>
+        <h3 class="category-name">Photographers</h3>
+        <p class="category-desc">Capture moments that last forever. From portraits to events.</p>
+      </div>
+    </div>
+    <div class="category-card reveal" onclick="filterByCategory('Cinematographer')">
+      <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=600&h=800&fit=crop" alt="Cinematographer">
+      <div class="category-overlay">
+        <span class="category-number">02</span>
+        <div class="category-arrow"><i class="fas fa-arrow-right"></i></div>
+        <h3 class="category-name">Cinematographers</h3>
+        <p class="category-desc">Cinematic storytelling through the art of motion picture.</p>
+      </div>
+    </div>
+    <div class="category-card reveal" onclick="filterByCategory('VFX Artist')">
+      <img src="https://images.unsplash.com/photo-1626544827763-d516dce335e2?w=600&h=800&fit=crop" alt="VFX Artist">
+      <div class="category-overlay">
+        <span class="category-number">03</span>
+        <div class="category-arrow"><i class="fas fa-arrow-right"></i></div>
+        <h3 class="category-name">VFX Artists</h3>
+        <p class="category-desc">Bring impossible visions to life with stunning visual effects.</p>
+      </div>
+    </div>
+    <div class="category-card reveal" onclick="filterByCategory('Graphic Designer')">
+      <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=800&fit=crop" alt="Graphic Designer">
+      <div class="category-overlay">
+        <span class="category-number">04</span>
+        <div class="category-arrow"><i class="fas fa-arrow-right"></i></div>
+        <h3 class="category-name">Graphic Designers</h3>
+        <p class="category-desc">Visual identities that speak louder than words.</p>
+      </div>
+    </div>
+    <div class="category-card reveal" onclick="filterByCategory('Content Creator')">
+      <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=800&fit=crop" alt="Content Creator">
+      <div class="category-overlay">
+        <span class="category-number">05</span>
+        <div class="category-arrow"><i class="fas fa-arrow-right"></i></div>
+        <h3 class="category-name">Content Creators</h3>
+        <p class="category-desc">Engaging content that builds audiences and drives growth.</p>
+      </div>
+    </div>
+    <div class="category-card reveal" onclick="filterByCategory('Storyteller')">
+      <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&h=800&fit=crop" alt="Storyteller">
+      <div class="category-overlay">
+        <span class="category-number">06</span>
+        <div class="category-arrow"><i class="fas fa-arrow-right"></i></div>
+        <h3 class="category-name">Storytellers</h3>
+        <p class="category-desc">Narratives that move hearts and inspire action.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Search / Filter -->
+<section class="section search-section" id="search">
+  <div class="section-label">Find Your Perfect Match</div>
+  <h2 class="section-title reveal">SEARCH. FILTER. <span class="highlight">HIRE.</span></h2>
+  
+  <div class="search-container">
+    <div class="search-bar reveal">
+      <input type="text" id="searchInput" placeholder="Search for photographers, VFX artists, designers..." oninput="applyFilters()">
+      <button onclick="applyFilters()"><i class="fas fa-search"></i> Search</button>
+    </div>
+    
+    <div class="filter-row reveal">
+      <div class="filter-group">
+        <label>Category</label>
+        <select class="filter-select" id="filterCategory" onchange="applyFilters()">
+          <option value="all">All Services</option>
+          <option value="Photographer">Photographers</option>
+          <option value="Cinematographer">Cinematographers</option>
+          <option value="VFX Artist">VFX Artists</option>
+          <option value="Graphic Designer">Graphic Designers</option>
+          <option value="Content Creator">Content Creators</option>
+          <option value="Storyteller">Storytellers</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Budget Range</label>
+        <select class="filter-select" id="filterBudget" onchange="applyFilters()">
+          <option value="all">Any Budget</option>
+          <option value="budget">₹5,000 – ₹15,000</option>
+          <option value="mid">15,000 – ₹35,000</option>
+          <option value="premium">₹35,000 – ₹75,000</option>
+          <option value="elite">₹75,000+</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Locality</label>
+        <select class="filter-select" id="filterLocality" onchange="applyFilters()">
+          <option value="all">Anywhere</option>
+          <option value="Mumbai">Mumbai</option>
+          <option value="Delhi">Delhi</option>
+          <option value="Bangalore">Bangalore</option>
+          <option value="Remote">Remote</option>
+          <option value="Chennai">Chennai</option>
+          <option value="Hyderabad">Hyderabad</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Event Type</label>
+        <select class="filter-select" id="filterEvent" onchange="applyFilters()">
+          <option value="all">Any Event</option>
+          <option value="Wedding">Wedding</option>
+          <option value="Corporate">Corporate</option>
+          <option value="Fashion">Fashion</option>
+          <option value="Film">Film / Video</option>
+          <option value="Commercial">Commercial</option>
+          <option value="Personal">Personal Project</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="results-header reveal">
+      <div class="results-count">Showing <strong id="resultCount">6</strong> creatives</div>
+      <div class="view-toggle">
+        <button class="active"><i class="fas fa-th"></i></button>
+        <button><i class="fas fa-list"></i></button>
+      </div>
+    </div>
+
+    <div class="creators-grid" id="creatorsGrid"></div>
+  </div>
+</section>
+
+<!-- How it Works -->
+<section class="section how-section" id="how">
+  <div class="section-label">Simple Process</div>
+  <h2 class="section-title reveal">HOW <span class="highlight">NEXORA</span> WORKS</h2>
+  <div class="steps-container">
+    <div class="step-card reveal">
+      <div class="step-number">01</div>
+      <div class="step-icon"><i class="fas fa-search"></i></div>
+      <h3 class="step-title">Search & Filter</h3>
+      <p class="step-desc">Browse categories, set your budget, choose locality, and pick your event type to find the perfect creative match.</p>
+    </div>
+    <div class="step-card reveal">
+      <div class="step-number">02</div>
+      <div class="step-icon"><i class="fas fa-eye"></i></div>
+      <h3 class="step-title">View Portfolios</h3>
+      <p class="step-desc">Explore detailed portfolios, read reviews, check ratings, and compare creatives side by side before making a choice.</p>
+    </div>
+    <div class="step-card reveal">
+      <div class="step-number">03</div>
+      <div class="step-icon"><i class="fas fa-handshake"></i></div>
+      <h3 class="step-title">Connect & Hire</h3>
+      <p class="step-desc">Message your chosen creative directly, discuss your project, agree on terms, and hire with confidence through Nexora.</p>
+    </div>
+    <div class="step-card reveal">
+      <div class="step-number">04</div>
+      <div class="step-icon"><i class="fas fa-star"></i></div>
+      <h3 class="step-title">Rate & Review</h3>
+      <p class="step-desc">After the project, leave a review to help the community. Great work gets rewarded with badges and top placement.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="stats-section">
+  <div class="stats-grid">
+    <div class="stat-item reveal"><div class="stat-number" data-target="2500">0</div><div class="stat-label">Verified Creatives</div></div>
+    <div class="stat-item reveal"><div class="stat-number" data-target="180">0</div><div class="stat-label">Cities Worldwide</div></div>
+    <div class="stat-item reveal"><div class="stat-number" data-target="12000">0</div><div class="stat-label">Projects Completed</div></div>
+    <div class="stat-item reveal"><div class="stat-number" data-target="98">0</div><div class="stat-label">% Satisfaction Rate</div></div>
+  </div>
+</section>
+
+<!-- For Creatives - NO COMMISSION -->
+<section class="section creatives-section" id="creatives">
+  <div class="section-label">For Creatives</div>
+  <h2 class="section-title reveal">GROW YOUR <span class="highlight">CAREER</span></h2>
+  <div class="creatives-grid">
+    <div class="creatives-visual reveal">
+      <div class="creatives-visual-inner">
+        <div class="cv-card cv-card-1">
+          <div class="cv-card-icon"><i class="fas fa-rupee-sign"></i></div>
+          <div class="cv-card-title">Avg. Earnings</div>
+          <div class="cv-card-value">₹45,000</div>
+          <div class="cv-card-sub">Per Project</div>
+        </div>
+        <div class="cv-card cv-card-2">
+          <div class="cv-card-icon"><i class="fas fa-briefcase"></i></div>
+          <div class="cv-card-title">Active Projects</div>
+          <div class="cv-card-value">3,200+</div>
+          <div class="cv-card-sub">This Month</div>
+        </div>
+        <div class="cv-card cv-card-3">
+          <div class="cv-card-icon"><i class="fas fa-globe"></i></div>
+          <div class="cv-card-title">Global Reach</div>
+          <div class="cv-card-value">180+</div>
+          <div class="cv-card-sub">Cities Connected</div>
+        </div>
+      </div>
+    </div>
+    <div class="creatives-info reveal">
+      <h3>YOU CREATE.<br>WE CONNECT.<br>EVERYONE WINS.</h3>
+      <p>Nexora is built for creatives, by creatives. List your portfolio for free, get discovered by clients worldwide, and grow your career on your own terms.</p>
+      <p>No monthly fees. No listing charges. No hidden costs. You keep what you earn — transparent, fair, and simple.</p>
+      <ul class="creatives-features">
+        <li><i class="fas fa-check-circle"></i> Free to list your portfolio</li>
+        <li><i class="fas fa-check-circle"></i> No monthly fees or subscriptions</li>
+        <li><i class="fas fa-check-circle"></i> Get paid securely through Nexora</li>
+        <li><i class="fas fa-check-circle"></i> Build your reputation with reviews</li>
+        <li><i class="fas fa-check-circle"></i> Access global clients instantly</li>
+        <li><i class="fas fa-check-circle"></i> Keep 100% of your earnings*</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="section testimonials-section">
+  <div class="section-label">What People Say</div>
+  <h2 class="section-title reveal">TRUSTED BY <span class="highlight">THOUSANDS</span></h2>
+  <div class="testimonials-grid">
+    <div class="testimonial-card reveal">
+      <div class="testimonial-stars">
+        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+      </div>
+      <p class="testimonial-text">"Found an incredible cinematographer for my short film in under 10 minutes. The portfolio preview feature is a game-changer."</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">AK</div>
+        <div>
+          <div class="testimonial-name">Arjun Kapoor</div>
+          <div class="testimonial-role">Independent Filmmaker</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal">
+      <div class="testimonial-stars">
+        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+      </div>
+      <p class="testimonial-text">"As a VFX artist, Nexora tripled my client base in 3 months. The platform is clean, professional, and the process is seamless."</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">PS</div>
+        <div>
+          <div class="testimonial-name">Priya Sharma</div>
+          <div class="testimonial-role">VFX Artist, Mumbai</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal">
+      <div class="testimonial-stars">
+        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+      </div>
+      <p class="testimonial-text">"The filter system is brilliant. I needed a wedding photographer in Delhi within a specific budget — found 5 perfect matches instantly."</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">RM</div>
+        <div>
+          <div class="testimonial-name">Rahul Mehta</div>
+          <div class="testimonial-role">Client, Delhi</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section cta-section" id="cta">
+  <h2 class="cta-title reveal">READY TO<br><span style="color: var(--orange)">CREATE?</span></h2>
+  <p class="cta-sub reveal">Whether you're looking to hire or looking to be hired — Nexora is your gateway to the creative world.</p>
+  <div class="cta-buttons reveal">
+    <a href="#search" class="btn-primary">Find a Creative <i class="fas fa-arrow-right"></i></a>
+    <a href="#" class="btn-secondary" onclick="openJoinModal(); return false;">Join as Creative</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#" class="logo">NEX<span>O</span>RA</a>
+      <p>Connecting the world's best creatives with the people who need them. One platform, infinite possibilities.</p>
+    </div>
+    <div class="footer-col">
+      <h4>PLATFORM</h4>
+      <a href="#featured">Showcase</a>
+      <a href="#categories">Services</a>
+      <a href="#search">Find Talent</a>
+      <a href="#how">How It Works</a>
+    </div>
+    <div class="footer-col">
+      <h4>CATEGORIES</h4>
+      <a href="#">Photographers</a>
+      <a href="#">Cinematographers</a>
+      <a href="#">VFX Artists</a>
+      <a href="#">Designers</a>
+    </div>
+    <div class="footer-col">
+      <h4>COMPANY</h4>
+      <a href="#">About Us</a>
+      <a href="#">Careers</a>
+      <a href="#">Press</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Nexora. All rights reserved. Built with passion for creatives.</p>
+    <div class="footer-socials">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-linkedin-in"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+    </div>
+  </div>
+</footer>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modalContent">
+    <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+// Creator Data - NO FACES, using creative work/portfolio images
+const creators = [
+  {
+    name: "Studio Lumière",
+    role: "Photographer",
+    image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=400&fit=crop",
+    rating: 4.9,
+    projects: 142,
+    locality: "Mumbai",
+    budget: "mid",
+    price: 25000,
+    events: ["Wedding", "Fashion", "Corporate"],
+    tags: ["Portrait", "Event", "Fashion"],
+    desc: "Award-winning photography studio with 8+ years of experience in fashion and wedding photography. Known for dramatic lighting and cinematic compositions.",
+    portfolio: [
+      "https://images.unsplash.com/photo-1519741497674-611481863552?w=300&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1519741497674-611481863552?w=300&h=300&fit=crop&crop=entropy",
+      "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=300&h=300&fit=crop"
+    ]
+  },
+  {
+    name: "Arjun Films",
+    role: "Cinematographer",
+    image: "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=600&h=400&fit=crop",
+    rating: 4.8,
+    projects: 87,
+    locality: "Bangalore",
+    budget: "premium",
+    price: 55000,
+    events: ["Film", "Commercial", "Corporate"],
+    tags: ["Cinema", "Documentary", "Ads"],
+    desc: "Cinematography house with experience in feature films and high-end commercials. Specializes in ARRI and RED camera systems.",
+    portfolio: [
+      "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=300&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=300&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=300&h=300&fit=crop"
+    ]
+  },
+  {
+    name: "Pixel Forge Studio",
+    role: "VFX Artist",
+    image: "https://images.unsplash.com/photo-1626544827763-d516dce335e2?w=600&h=400&fit=crop",
+    rating: 4.9,
+    projects: 203,
+    locality: "Remote",
+    budget: "premium",
+    price: 45000,
+    events: ["Film", "Commercial", "Personal"],
+    tags: ["3D", "Compositing", "Motion"],
+    desc: "Senior VFX studio with work on Bollywood films and international commercials. Expert in Houdini, Nuke, and After Effects.",
+    portfolio: [
+      "https://images.unsplash.com/photo-1626544827763-d516dce335e2?w=300&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=300&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=300&h=300&fit=crop"
+    ]
+  },
+  {
+    name: "Design Collective",
+    role: "Graphic Designer",
+    image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=400&fit=crop",
+    rating: 4.7,
+    projects: 315,
+    locality: "Delhi",
+    budget: "budget",
+    price: 12000,
+    events: ["Corporate", "Commercial", "Personal"],
+    tags: ["Branding", "UI/UX", "Print"],
+    desc: "Versatile design studio specializing in brand identity and digital design. Worked with 50+ startups and established brands.",
+    portfolio: [
+      "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=300&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=300&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=300&h=300&fit=crop"
+    ]
+  },
+  {
+    name: "Creator Hub",
+    role: "Content Creator",
+    image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop",
+    rating: 4.8,
+    projects: 178,
+    locality: "Mumbai",
+    budget: "mid",
+    price: 20000,
+    events: ["Commercial", "Corporate", "Personal"],
+    tags: ["Video", "Social", "Strategy"],
+    desc: "Full-stack content creation agency with 500K+ combined followers. Specializes in short-form video, brand collaborations, and content strategy.",
+    portfolio: [
+      "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=300&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=300&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=300&h=300&fit=crop"
+    ]
+  },
+  {
+    name: "Story Craft",
+    role: "Storyteller",
+    image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&h=400&fit=crop",
+    rating: 4.9,
+    projects: 96,
+    locality: "Bangalore",
+    budget: "mid",
+    price: 30000,
+    events: ["Film", "Corporate", "Personal"],
+    tags: ["Script", "Narrative", "Brand"],
+    desc: "Published authors and screenwriters crafting compelling narratives for brands, films, and documentaries. 3 national awards.",
+    portfolio: [
+      "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=300&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop",
+      "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=300&h=300&fit=crop"
+    ]
+  }
+];
+
+function formatINR(amount) {
+  return '' + amount.toLocaleString('en-IN');
+}
+
+function renderCreators(list) {
+  const grid = document.getElementById('creatorsGrid');
+  document.getElementById('resultCount').textContent = list.length;
+  
+  if (list.length === 0) {
+    grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding:60px 20px; color: var(--light-gray);"><i class="fas fa-search" style="font-size:2rem; color:var(--orange); margin-bottom:15px; display:block;"></i>No creatives found. Try adjusting your filters.</div>';
+    return;
+  }
+  
+  grid.innerHTML = list.map((c, i) => `
+    <div class="creator-card reveal" style="animation-delay: ${i * 0.1}s" onclick="openCreatorModal(${creators.indexOf(c)})">
+      <div class="creator-image">
+        <img src="${c.image}" alt="${c.name}">
+        <span class="creator-badge">${c.role}</span>
+        <span class="creator-rating"><i class="fas fa-star"></i> ${c.rating}</span>
+      </div>
+      <div class="creator-info">
+        <h3 class="creator-name">${c.name}</h3>
+        <div class="creator-role">${c.role}</div>
+        <div class="creator-meta">
+          <span><i class="fas fa-map-marker-alt"></i> ${c.locality}</span>
+          <span><i class="fas fa-briefcase"></i> ${c.projects} projects</span>
+        </div>
+        <div class="creator-tags">
+          ${c.tags.map(t => `<span>${t}</span>`).join('')}
+        </div>
+        <div class="creator-footer">
+          <div class="creator-price">From <strong>${formatINR(c.price)}</strong>/project</div>
+          <button class="creator-hire" onclick="event.stopPropagation(); openCreatorModal(${creators.indexOf(c)})">View Profile</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  
+  document.querySelectorAll('.creator-card.reveal').forEach(el => observer.observe(el));
+}
+
+function applyFilters() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const category = document.getElementById('filterCategory').value;
+  const budget = document.getElementById('filterBudget').value;
+  const locality = document.getElementById('filterLocality').value;
+  const event = document.getElementById('filterEvent').value;
+  
+  let filtered = creators.filter(c => {
+    if (search && !c.name.toLowerCase().includes(search) && !c.role.toLowerCase().includes(search) && !c.tags.some(t => t.toLowerCase().includes(search))) return false;
+    if (category !== 'all' && c.role !== category) return false;
+    if (budget !== 'all' && c.budget !== budget) return false;
+    if (locality !== 'all' && c.locality !== locality) return false;
+    if (event !== 'all' && !c.events.includes(event)) return false;
+    return true;
+  });
+  
+  renderCreators(filtered);
+}
+
+function filterByCategory(cat) {
+  document.getElementById('filterCategory').value = cat;
+  document.getElementById('search').scrollIntoView({ behavior: 'smooth' });
+  setTimeout(applyFilters, 500);
+}
+
+function openCreatorModal(idx) {
+  const c = creators[idx];
+  const body = document.getElementById('modalBody');
+  body.innerHTML = `
+    <div style="margin-bottom:20px;">
+      <img src="${c.image}" style="width:100%; height:200px; object-fit:cover; border-radius:12px;">
+    </div>
+    <h2>${c.name}</h2>
+    <div class="modal-role">${c.role} · ${c.locality}</div>
+    <p class="modal-desc">${c.desc}</p>
+    <div style="margin-bottom:20px;">
+      <div style="font-size:0.7rem; letter-spacing:2px; text-transform:uppercase; color:var(--light-gray); margin-bottom:10px;">Portfolio Samples</div>
+      <div class="modal-portfolio">
+        ${c.portfolio.map(p => `<div class="modal-portfolio-item"><img src="${p}" alt="Portfolio"></div>`).join('')}
+      </div>
+    </div>
+    <div class="modal-stats">
+      <div class="modal-stat"><div class="val">${c.rating}</div><div class="lbl">Rating</div></div>
+      <div class="modal-stat"><div class="val">${c.projects}</div><div class="lbl">Projects</div></div>
+      <div class="modal-stat"><div class="val">${formatINR(c.price)}</div><div class="lbl">Starting</div></div>
+    </div>
+    <div style="margin-bottom:25px;">
+      <div style="font-size:0.7rem; letter-spacing:2px; text-transform:uppercase; color:var(--light-gray); margin-bottom:10px;">Available For</div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        ${c.events.map(e => `<span style="background:rgba(232,93,38,0.15); color:var(--orange); padding:6px 14px; border-radius:20px; font-size:0.8rem;">${e}</span>`).join('')}
+      </div>
+    </div>
+    <button class="modal-hire-btn" onclick="alert('Booking request sent to ${c.name}! They will respond within 24 hours.')">
+      <i class="fas fa-paper-plane"></i> Send Booking Request
+    </button>
+  `;
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function openJoinModal() {
+  const body = document.getElementById('modalBody');
+  body.innerHTML = `
+    <h2>Join Nexora</h2>
+    <div class="modal-role">Start earning as a creative today</div>
+    <p class="modal-desc">Create your free portfolio, showcase your work, and start receiving booking requests from clients worldwide. No monthly fees, no hidden charges.</p>
+    <div style="display:grid; gap:12px; margin-bottom:20px;">
+      <input type="text" placeholder="Studio / Brand Name" style="padding:14px 18px; background:var(--dark); border:1px solid rgba(255,248,240,0.1); border-radius:10px; color:var(--cream); font-family:'Inter'; font-size:0.9rem; outline:none;">
+      <input type="email" placeholder="Email Address" style="padding:14px 18px; background:var(--dark); border:1px solid rgba(255,248,240,0.1); border-radius:10px; color:var(--cream); font-family:'Inter'; font-size:0.9rem; outline:none;">
+      <select style="padding:14px 18px; background:var(--dark); border:1px solid rgba(255,248,240,0.1); border-radius:10px; color:var(--cream); font-family:'Inter'; font-size:0.9rem; outline:none; appearance:none;">
+        <option>Select Your Category</option>
+        <option>Photographer</option>
+        <option>Cinematographer</option>
+        <option>VFX Artist</option>
+        <option>Graphic Designer</option>
+        <option>Content Creator</option>
+        <option>Storyteller</option>
+      </select>
+      <input type="text" placeholder="Portfolio URL (optional)" style="padding:14px 18px; background:var(--dark); border:1px solid rgba(255,248,240,0.1); border-radius:10px; color:var(--cream); font-family:'Inter'; font-size:0.9rem; outline:none;">
+    </div>
+    <button class="modal-hire-btn" onclick="alert('Welcome to Nexora! Check your email to complete your profile.')">
+      Create Free Account
+    </button>
+  `;
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('modalOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX - 10 + 'px';
+  cursor.style.top = e.clientY - 10 + 'px';
+});
+
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+});
+
+const apertureEl = document.getElementById('lensAperture');
+for (let i = 0; i < 8; i++) {
+  const blade = document.createElement('div');
+  blade.className = 'aperture-blade';
+  blade.style.transform = `rotate(${i * 45}deg)`;
+  apertureEl.appendChild(blade);
+}
+
+gsap.registerPlugin(ScrollTrigger);
+
+gsap.to('.hero-title .line span', { y: 0, duration: 1.2, stagger: 0.15, ease: 'power4.out', delay: 0.3 });
+gsap.to('.hero-sub', { opacity: 1, y: 0, duration: 1, delay: 1 });
+gsap.to('.hero-buttons', { opacity: 1, y: 0, duration: 1, delay: 1.2 });
+gsap.to('.scroll-indicator', { opacity: 1, duration: 1, delay: 1.8 });
+
+gsap.to('#cameraLens', {
+  rotation: 1080,
+  ease: 'none',
+  scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1 }
+});
+
+gsap.to('#cameraLensContainer', {
+  opacity: 0,
+  scale: 0.5,
+  ease: 'power2.in',
+  scrollTrigger: { trigger: '#hero', start: '30% top', end: '70% top', scrub: 1 }
+});
+
+let flashTriggered = false;
+ScrollTrigger.create({
+  trigger: '#hero',
+  start: 'bottom top',
+  onEnter: () => {
+    if (!flashTriggered) {
+      flashTriggered = true;
+      const flash = document.getElementById('cameraFlash');
+      flash.classList.add('active');
+      const shutter = document.getElementById('shutterIndicator');
+      shutter.classList.add('show');
+      setTimeout(() => flash.classList.remove('active'), 700);
+      setTimeout(() => shutter.classList.remove('show'), 2000);
+    }
+  }
+});
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('active');
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+const statsObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const target = parseInt(el.dataset.target);
+      let current = 0;
+      const increment = target / 60;
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) { current = target; clearInterval(timer); }
+        el.textContent = Math.floor(current).toLocaleString('en-IN') + (target === 98 ? '%' : '+');
+      }, 25);
+      statsObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.stat-number').forEach(el => statsObserver.observe(el));
+
+renderCreators(creators);
+
+setTimeout(() => {
+  document.querySelectorAll('a, button, .category-card, .creator-card, .featured-item').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('active'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+  });
+}, 1000);
+
+gsap.to('.lens-flare', { x: 20, y: 15, duration: 4, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+gsap.to('.lens-reflection', { rotation: 360, duration: 20, repeat: -1, ease: 'none' });
+
+// Parallax for floating shapes
+gsap.to('.shape-1', { y: -100, scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: 2 } });
+gsap.to('.shape-2', { y: 100, scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: 3 } });
+gsap.to('.shape-3', { x: -80, scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: 2.5 } });
+gsap.to('.shape-4', { x: 80, scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: 2 } });
+</script>
+</body>
+</html>
